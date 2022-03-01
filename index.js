@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const util = require("util");
 const inquirer = require("inquirer");
+const questions = require("questions.js");
 
 const connection = mysql.createConnection({
   host: "localhost",
