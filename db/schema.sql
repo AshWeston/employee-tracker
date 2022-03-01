@@ -1,7 +1,7 @@
 CREATE DATABASE employee_DB;
 USE employee_DB;
 
-CREATE TABLE `departement` (
+CREATE TABLE `department` (
   `id` int NOT NULL,
   `name` varchar(30) DEFAULT NULL
 );
@@ -11,7 +11,7 @@ CREATE TABLE `role` (
   `id` int NOT NULL,
   `title` varchar(30) DEFAULT NULL,
   `salary` decimal(30,0) DEFAULT NULL,
-  `departement_id` int DEFAULT NULL
+  `department_id` int DEFAULT NULL
 );
 
 
