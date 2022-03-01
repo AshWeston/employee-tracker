@@ -5,8 +5,8 @@ const inquirer = require("inquirer");
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
-  user: "root",
-  password: "XX", //need to work out how to update password before including.
+  user: "testuser",
+  password: "pa$$word123", //need to work out how to update password before including.
   //   database: "employee_DB", - need to create database.
 });
 
