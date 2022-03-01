@@ -2,27 +2,32 @@ use employee_DB;
 
 -- departments
 INSERT INTO `department` (`id`, `name`) VALUES
-(1, 'Finance'),
-(2, 'HR'),
-(3, 'Sales'),
-(4, 'IT'),
+(1, 'Engineering'),
+(2, 'Finance'),
+(3, 'Legal'),
+(4, 'Sales'),
 
 -- roles
 INSERT INTO `role` (`id`, `title`, `salary`, `dept_id`) VALUES
-(1, 'Salesperson', '70000', 1),
-(2, 'Accountant', '80000', 2),
-(3, 'IT', '90000', 3),
-(4, 'Operations Manager', '150000', 4);
+(1, 'Sales Lead', '100000', 4),
+(2, 'Salesperson', '80000', 4),
+(3, 'Lead Engineer', '150000', 1),
+(4, 'Software Engineer', '120000', 1);
+(5, 'Account Manager', '160000', 2);
+(6, 'Accountant', '125000', 2);
+(7, 'Legal Team Lead', '250000', 3);
+(8, 'Lawyer', '190000', 3);
 
 -- employees
 INSERT INTO `employee` (`id`, `first_name`, `last_name`, `role_id`, `manager_id`) VALUES
-(1, 'Danni ', 'Henson', 2, 1),
-(2, 'Jordan', ' Esparza', 1, 1),
-(3, 'Brandon', 'Strickland', 4, 2),
-(4, 'Phoebe', 'Holding', 3, 2),
-(5, 'Ezra', 'Chavez', 2, 1);
-(6, 'Sami', 'Andrews', 1, 2);
-
+(1, 'John ', 'Doe', 1, NULL),
+(2, 'Mike', ' Chan', 2, 1),
+(3, 'Ashley', 'Rodriguez', 3, NULL),
+(4, 'Kevin', 'Tupik', 4, 3),
+(5, 'Kunal', 'Singh', 5, NULL);
+(6, 'Malia', 'Brown', 6, 5);
+(7, 'Sarah', 'Lourd', 7, NULL);
+(8, 'Tom', 'Allen', 8, 7);
 
 
 
