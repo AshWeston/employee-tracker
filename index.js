@@ -44,3 +44,14 @@ async function init() {
       break;
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// View function
+
+async function viewInfo() {}
+
+async function editDepartments() {}
+
+async function editRole() {}
+
+async function editEmployee() {}
