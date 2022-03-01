@@ -7,16 +7,40 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "testuser",
-  password: "pa$$word123", //need to work out how to update password before including.
+  password: "pa$$word123",
   //   database: "employee_DB", - need to create database.
 });
 
+// promise wrapper to enable async await with MYSQL
+connection.query = util.promisify(connection.query).bind(connection);
+
+//connect to the database
 connection.connect(function (err) {
   if (err) throw err;
   console.log("Connected");
   init();
 });
 
-function init() {
-  console.log("initialised");
-} //create first function
+//begin application
+async function init() {
+  const { action } = await inquirer.prompt(questions);
+  switch (action) {
+    case "View All Departments/Roles or Employees":
+      viewInfo();
+      break;
+    case "Edit Department":
+      editDepartments();
+      break;
+    case "Edit Role":
+      editRole();
+      break;
+    case "Edit Employee":
+      editEmployee();
+      break;
+    case "Exit":
+      process.exit(0);
+      break;
+    default:
+      break;
+  }
+}
