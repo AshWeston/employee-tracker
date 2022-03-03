@@ -3,9 +3,9 @@ use employee_DB;
 -- departments
 
 INSERT INTO `department` (`dept`) VALUES 
-('Engineering');
-('Finance');
-('Legal');
+('Engineering'),
+('Finance'),
+('Legal'),
 ('Sales');
 
 
