@@ -189,18 +189,17 @@ async function addEmployee() {
     },
     {
       name: "managerName",
-      type: "confirm",
-      message: "Is the employee a manager?",
+      type: "list",
+      message: "Who is the employee's manager?",
+      choices: [
+        "John Doe",
+        "Ashley Rodriguez",
+        "Kunal Singh",
+        "Sarah Lourd",
+        "null",
+      ],
     },
   ]);
-  switch (add.managerName) {
-    case true:
-      add.managerName = 1;
-      break;
-    case false:
-      add.managerName = null;
-      break;
-  }
   const query = await connection.query(
     "INSERT INTO employee SET ?",
     {
