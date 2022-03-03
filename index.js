@@ -57,17 +57,18 @@ async function viewAll() {
   });
   let query;
   if (viewChoice === "Employees") {
-    query = `SELECT  employee.first_name, employee.last_name,
-      role.title, role.salary, department.dept AS department
+    query = `SELECT  employee.id, employee.first_name, employee.last_name,
+      role.title, role.salary, employee.manager_name, department.dept AS department
       FROM ((employee
       INNER JOIN role ON employee.role_id = role.id)
       INNER JOIN department ON role.dept_id = department.id)
       ORDER BY department`;
   } else if (viewChoice === "Departments") {
-    query = `SELECT dept FROM department`;
+    query = `SELECT id, dept FROM department`;
   } else if (viewChoice === "Roles") {
-    query = `SELECT role.title, role.dept_id AS id, department.dept AS department FROM role 
-    INNER JOIN department ON role.dept_id = department.id ORDER BY title ASC`;
+    query = `SELECT role.title, role.id AS id, department.dept AS department FROM role 
+    INNER JOIN department ON role.dept_id = department.id ORDER BY id
+     ASC`;
   }
   const data = await connection.query(query);
   console.table(data);
@@ -187,17 +188,17 @@ async function addEmployee() {
       ],
     },
     {
-      name: "managerID",
+      name: "managerName",
       type: "confirm",
       message: "Is the employee a manager?",
     },
   ]);
-  switch (add.managerID) {
+  switch (add.managerName) {
     case true:
-      add.managerID = 1;
+      add.managerName = 1;
       break;
     case false:
-      add.managerID = null;
+      add.managerName = null;
       break;
   }
   const query = await connection.query(
@@ -206,7 +207,7 @@ async function addEmployee() {
       first_name: add.firstName,
       last_name: add.lastName,
       role_id: add.roleID,
-      manager_id: add.managerID,
+      manager_name: add.managerName,
     },
 
     function (err, res) {
@@ -332,3 +333,8 @@ async function updateRole() {
   );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//ITEMS TO FIX////
+//need to change "View All Roles" - currently showing index, title, id, department
+//NEEDS to show id, title, department, salary - starts at "0" - index must start at 1 instead.
+//fix add employee error
