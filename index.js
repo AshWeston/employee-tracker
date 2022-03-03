@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const util = require("util");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 const questions = require("./questions");
 
 const connection = mysql.createConnection({
@@ -58,7 +59,7 @@ async function viewAll() {
   let query;
   if (viewChoice === "Employees") {
     query = `SELECT  employee.id, employee.first_name, employee.last_name,
-      role.title, role.salary, employee.manager_name, department.dept AS department
+      role.title, role.salary, employee.manager_id, department.dept AS department
       FROM ((employee
       INNER JOIN role ON employee.role_id = role.id)
       INNER JOIN department ON role.dept_id = department.id)
@@ -66,7 +67,7 @@ async function viewAll() {
   } else if (viewChoice === "Departments") {
     query = `SELECT id, dept FROM department`;
   } else if (viewChoice === "Roles") {
-    query = `SELECT role.title, role.id AS id, department.dept AS department FROM role 
+    query = `SELECT role.title, role.id AS id, role.salary, department.dept AS department FROM role 
     INNER JOIN department ON role.dept_id = department.id ORDER BY id
      ASC`;
   }
@@ -188,31 +189,32 @@ async function addEmployee() {
       ],
     },
     {
-      name: "managerName",
-      type: "list",
-      message: "Who is the employee's manager?",
-      choices: [
-        "John Doe",
-        "Ashley Rodriguez",
-        "Kunal Singh",
-        "Sarah Lourd",
-        "null",
-      ],
+      name: "managerID",
+      type: "confirm",
+      message: "Is the employee a manager?",
     },
   ]);
+  switch (add.managerID) {
+    case true:
+      add.managerID = 1;
+      break;
+    case false:
+      add.managerID = null;
+      break;
+  }
   const query = await connection.query(
     "INSERT INTO employee SET ?",
     {
       first_name: add.firstName,
       last_name: add.lastName,
       role_id: add.roleID,
-      manager_name: add.managerName,
+      manager_id: add.managerID,
     },
 
     function (err, res) {
       if (err) throw err;
       console.log(res.affectedRows + " Employee Added\n");
-      startPrompts();
+      init();
     }
   );
 }

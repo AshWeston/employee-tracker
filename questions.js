@@ -6,7 +6,7 @@ const questions = [
     choices: [
       "View All Departments, Roles or Employees", //view all
       "Edit Department", //add or remove department
-      "Edit Employee Role", //add or remove role
+      "Edit Employee Role", //add or update role
       "Edit Employee", //add or remove employee
       "Exit",
     ],
