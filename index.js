@@ -335,7 +335,20 @@ async function updateRole() {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//ITEMS TO FIX////
-//need to change "View All Roles" - currently showing index, title, id, department
-//NEEDS to show id, title, department, salary - starts at "0" - index must start at 1 instead.
-//fix add employee error
+// NOTES:
+
+// Functions:
+
+// View All Employees – need to fix so that you can see manager name, rather than ID
+
+// Edit Department functions working
+
+// Edit Employee Role – working
+
+// Edit Employee – need to check remove Employee. Will do once Add employee working
+
+// Can be done later:
+
+// Remove Role
+
+// Swap around salary and department on view all roles
