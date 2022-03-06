@@ -63,7 +63,7 @@ async function viewAll() {
       FROM ((employee
       INNER JOIN role ON employee.role_id = role.id)
       INNER JOIN department ON role.dept_id = department.id)
-      ORDER BY department`;
+      ORDER BY id`;
   } else if (viewChoice === "Departments") {
     query = `SELECT id, dept FROM department`;
   } else if (viewChoice === "Roles") {
@@ -234,6 +234,33 @@ async function addEmployee() {
       });
   });
 }
+
+///////////////////remove employee///
+
+async function removeEmployee() {
+  const employees = await connection.query(
+    "SELECT id, first_name, last_name FROM employee"
+  );
+  let employeeArray = employees.map(({ id, first_name, last_name }) => ({
+    name: `${first_name} ${last_name}`,
+    value: id,
+  }));
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "employee",
+        message: "Select any employee to remove",
+        choices: employeeArray,
+      },
+    ])
+    .then((employee) => {
+      connection.query(`DELETE FROM employee WHERE id = ${employee.employee}`);
+      console.log("Employee Removed!");
+      startPrompts();
+    });
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //Edit role
 
@@ -316,7 +343,7 @@ async function updateRole() {
 
     function (err, res) {
       if (err) throw err;
-      console.log(res.affectedRows + " Role Added\n");
+      console.log(res.affectedRows + " Role Updated\n");
       startPrompts();
     }
   );
