@@ -162,100 +162,77 @@ async function editEmployee() {
 ///////////////////////////////////////////////////////////////////
 //// Add employee function
 async function addEmployee() {
-  // connection.query(
-  //   "SELECT id, title as titles FROM role",
-  //   async function (err, titles) {
-  //     if (err) throw err;
-  //     const role = titles.map(({id, title}) => ({
-  //       name: title,
-  //       value: id,
-  //     }));
-  //   }
-  // );
-  const add = await inquirer.prompt([
-    {
-      name: "firstName",
-      type: "input",
-      message: "What is the employee's first name?",
-    },
-    {
-      name: "lastName",
-      type: "input",
-      message: "What is the employee's last name?",
-    },
-    {
-      name: "roleID",
-      type: "list",
-      message: "What is the employee's role?",
-      choices: [
-        "Sales Lead",
-        "Salesperson",
-        "Lead Engineer",
-        "Software Engineer",
-        "Account Manager",
-        "Accountant",
-        "Legal Team Lead",
-        "Lawyer",
-      ],
-    },
-    {
-      name: "managerID",
-      type: "confirm",
-      message: "Is the employee a manager?",
-    },
-  ]);
-  switch (add.managerID) {
-    case true:
-      add.managerID = 1;
-      break;
-    case false:
-      add.managerID = null;
-      break;
-  }
-
-  const query = await connection.query(
-    "INSERT INTO employee SET ?",
-    {
-      first_name: add.firstName,
-      last_name: add.lastName,
-      role_id: add.roleID,
-      manager_id: add.managerID,
-    },
-
-    function (err, res) {
-      if (err) throw err;
-      console.log(res.affectedRows + " Employee Added\n");
-      init();
-    }
-  );
-}
-
-////////////////////////////////////////////////////////////////////
-////////Employee remove function
-async function removeEmployee() {
-  connection.query(
-    "SELECT first_name AS firstName, last_name AS lastName FROM employee",
-    async function (err, employees) {
-      const data = await inquirer.prompt([
+  connection.query(`SELECT id, title FROM role;`, function (err, res) {
+    const role = res.map(({ id, title }) => ({
+      name: title,
+      value: id,
+    }));
+    inquirer
+      .prompt([
         {
-          name: "employees",
-          message: "Which employee would you like to remove?",
-          type: "list",
-          choices: employees.map((employee) => ({
-            name: employee.firstName + " " + employee.lastName,
-          })),
+          type: "input",
+          name: "first_name",
+          message: "What is the employee's first name?",
         },
-      ]);
-      console.log(data);
-      const firstAndLast = data.employees.split(" ");
-      console.log(firstAndLast[1]);
-      connection.query(
-        "DELETE FROM employee WHERE first_name = ? AND last_name = ?",
-        [firstAndLast[0], firstAndLast[1]]
-      );
-      startPrompts();
-    }
-  );
+        {
+          type: "input",
+          name: "last_name",
+          message: "What is the employee's last name?",
+        },
+        {
+          type: "list",
+          name: "role",
+          message: "What is the employee's role?",
+          choices: role,
+        },
+      ])
+      .then((data) => {
+        const param = [data.first_name, data.last_name, data.role];
+        connection.query(
+          `SELECT id, concat(first_name, " ", last_name) AS name FROM employee;`,
+          function (err, res) {
+            if (err) throw err;
+            const manager = res.map(({ id, name }) => ({
+              name: name,
+              value: id,
+            }));
+
+            inquirer
+              .prompt([
+                {
+                  type: "list",
+                  name: "manager",
+                  message: "Does this person have a manager?",
+                  choices: ["Yes", "No"],
+                },
+                {
+                  type: "list",
+                  name: "empManager",
+                  message: "Who is the employee's manager?",
+                  choices: manager,
+                  when(answers) {
+                    return answers.manager === "Yes";
+                  },
+                },
+              ])
+              .then((managerChoice) => {
+                param.push(managerChoice.empManager);
+
+                const sql = `INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+                connection.query(sql, param, (err, results) => {
+                  if (err) throw err;
+
+                  console.log(
+                    `${data.first_name} ${data.last_name} has been added to the database`
+                  );
+
+                  startPrompts();
+                });
+              });
+          }
+        );
+      });
+  });
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 //Edit role
@@ -353,7 +330,7 @@ async function updateRole() {
 // View All Employees – need to fix so that you can see manager name, rather than ID
 //Add Employee - not working. Need to fix role_id
 //change choices for role iD to get from table rather than string.
-
+//need to fix remove employee
 // Edit Department functions working
 
 // Edit Employee Role – working
