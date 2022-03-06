@@ -3,6 +3,7 @@ const util = require("util");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const questions = require("./questions");
+const { get } = require("https");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -202,6 +203,7 @@ async function addEmployee() {
       add.managerID = null;
       break;
   }
+
   const query = await connection.query(
     "INSERT INTO employee SET ?",
     {
@@ -340,6 +342,8 @@ async function updateRole() {
 // Functions:
 
 // View All Employees – need to fix so that you can see manager name, rather than ID
+//Add Employee - not working. Need to fix role_id
+//change choices for role iD to get from table rather than string. 
 
 // Edit Department functions working
 
