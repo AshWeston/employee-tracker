@@ -269,13 +269,18 @@ async function editRole() {
     name: "role",
     type: "list",
     message: "What would you like to do?",
-    choices: ["Add Role", "Update Role", "Exit"],
+    choices: ["Add Role", "Update Role", "Remove Role", "Exit"],
   });
   if (role === "Add Role") {
     addRole();
-  } else if (role === "Update Role") {
+  }
+  if (role === "Update Role") {
     updateRole();
-  } else {
+  }
+  if (role === "Remove Role") {
+    removeRole();
+  }
+  if (role === "Exit") {
     startPrompts();
   }
 }
@@ -283,7 +288,6 @@ async function editRole() {
 ////add role function
 async function addRole() {
   const departments = await connection.query("SELECT dept, id FROM department");
-  console.log(departments);
   const { dept, title, salary } = await inquirer.prompt([
     {
       name: "dept",
@@ -347,6 +351,27 @@ async function updateRole() {
       startPrompts();
     }
   );
+}
+
+///Remove Role///
+
+async function removeRole() {
+  connection.query("SELECT id, title FROM role", async function (err, title) {
+    const rolesArray = await inquirer.prompt([
+      {
+        type: "list",
+        name: "title",
+        message: "Select any role to remove",
+        choices: title.map((title) => ({
+          name: title.title,
+        })),
+      },
+    ]); //up to  here is working
+    connection.query("DELETE FROM roles WHERE ?", {
+      role: rolesArray.role,
+    }),
+      startPrompts();
+  });
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
