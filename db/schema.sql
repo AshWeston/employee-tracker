@@ -4,13 +4,13 @@ USE employee_DB;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT,
-  dept VARCHAR(30) NULL,
+  dept VARCHAR(45) NULL, --varchar 45 due to charachter length of view all 
   PRIMARY KEY (id)
 );
 
 CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(30) NULL,
+  title VARCHAR(45) NULL,
   salary DECIMAL NOT NULL,
   dept_id INT REFERENCES department.id,
   PRIMARY KEY (id)
@@ -18,8 +18,8 @@ CREATE TABLE role (
 
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(30) NULL,
-  last_name VARCHAR(30) NULL,
+  first_name VARCHAR(45) NULL,
+  last_name VARCHAR(45) NULL,
   role_id INT REFERENCES role.id,
  manager_id INT,
   PRIMARY KEY (id)
