@@ -3,7 +3,6 @@ const util = require("util");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const questions = require("./questions");
-const { get } = require("https");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -163,6 +162,16 @@ async function editEmployee() {
 ///////////////////////////////////////////////////////////////////
 //// Add employee function
 async function addEmployee() {
+  // connection.query(
+  //   "SELECT id, title as titles FROM role",
+  //   async function (err, titles) {
+  //     if (err) throw err;
+  //     const role = titles.map(({id, title}) => ({
+  //       name: title,
+  //       value: id,
+  //     }));
+  //   }
+  // );
   const add = await inquirer.prompt([
     {
       name: "firstName",
@@ -343,7 +352,7 @@ async function updateRole() {
 
 // View All Employees – need to fix so that you can see manager name, rather than ID
 //Add Employee - not working. Need to fix role_id
-//change choices for role iD to get from table rather than string. 
+//change choices for role iD to get from table rather than string.
 
 // Edit Department functions working
 
