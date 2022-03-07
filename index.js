@@ -207,7 +207,7 @@ async function addEmployee() {
                 },
                 {
                   type: "list",
-                  name: "empManager",
+                  name: "employeeManager",
                   message: "Who is the employee's manager?",
                   choices: manager,
                   when(answers) {
@@ -216,12 +216,11 @@ async function addEmployee() {
                 },
               ])
               .then((managerChoice) => {
-                param.push(managerChoice.empManager);
+                param.push(managerChoice.employeeManager);
 
                 const sql = `INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
                 connection.query(sql, param, (err, results) => {
                   if (err) throw err;
-
                   console.log(
                     `${data.first_name} ${data.last_name} has been added to the database`
                   );
@@ -352,45 +351,3 @@ async function updateRole() {
     }
   );
 }
-
-///Remove Role///
-
-async function removeRole() {
-  connection.query("SELECT id, title FROM role", async function (err, title) {
-    const rolesArray = await inquirer.prompt([
-      {
-        type: "list",
-        name: "title",
-        message: "Select any role to remove",
-        choices: title.map((title) => ({
-          name: title.title,
-        })),
-      },
-    ]); //up to  here is working
-    connection.query("DELETE FROM roles WHERE ?", {
-      role: rolesArray.role,
-    }),
-      startPrompts();
-  });
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// NOTES:
-
-// Functions:
-
-// View All Employees – need to fix so that you can see manager name, rather than ID
-//Add Employee - not working. Need to fix role_id
-//change choices for role iD to get from table rather than string.
-//need to fix remove employee
-// Edit Department functions working
-
-// Edit Employee Role – working
-
-// Edit Employee – need to check remove Employee. Will do once Add employee working
-
-// Can be done later:
-
-// Remove Role
-
-// Swap around salary and department on view all roles
