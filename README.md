@@ -23,7 +23,7 @@ The application is used to keep view and manage the employees within a company a
 
 ## Walkthrough
 
-Click on the [link] to take a look at the functionality of this application.
+Click on the [link](https://drive.google.com/file/d/1_TKE2Rv0NcROIjjpKUxGphBNaXrdn29n/view) to take a look at the functionality of this application.
 
 ## Technologies
 
