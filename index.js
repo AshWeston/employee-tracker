@@ -268,16 +268,13 @@ async function editRole() {
     name: "role",
     type: "list",
     message: "What would you like to do?",
-    choices: ["Add Role", "Update Role", "Remove Role", "Exit"],
+    choices: ["Add Role", "Update Role", "Exit"],
   });
   if (role === "Add Role") {
     addRole();
   }
   if (role === "Update Role") {
     updateRole();
-  }
-  if (role === "Remove Role") {
-    removeRole();
   }
   if (role === "Exit") {
     startPrompts();

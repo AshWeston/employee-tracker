@@ -4,7 +4,7 @@ USE employee_DB;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT,
-  dept VARCHAR(45) NULL, --varchar 45 due to charachter length of view all 
+  dept VARCHAR(45) NULL, 
   PRIMARY KEY (id)
 );
 
